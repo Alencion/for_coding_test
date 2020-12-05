@@ -1,6 +1,13 @@
-# intellij
-.idea
-untitled104.iml
 
-# build
-out
+**/.idea
+**/out
+
+**.iml
+**.zip
+
+**.in
+**.out
+
+**.png
+**.jpg
+**.jpeg

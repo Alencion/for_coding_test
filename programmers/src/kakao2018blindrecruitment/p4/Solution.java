@@ -74,7 +74,7 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        String[] board = new String[]{"AAAB", "AAAB", "CCCB", "BBBB"};
+        String[] board = new String[]{"CCCB", "AAAB", "AAAB", "BBBB"};
         System.out.println(new Solution().solution(4, 4, board));
     }
 }

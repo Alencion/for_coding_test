@@ -1,4 +1,4 @@
-package dijkstra.p10217;
+package dijkstra.p10217_not_solve;
 
 import java.io.*;
 import java.util.*;

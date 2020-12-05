@@ -1,4 +1,4 @@
-package skillTest.p7;
+package skillTest.level_one.p7;
 
 import java.util.*;
 

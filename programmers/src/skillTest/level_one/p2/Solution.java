@@ -1,4 +1,4 @@
-package skillTest.p2;
+package skillTest.level_one.p2;
 
 public class Solution {
     public String solution(String phone_number) {

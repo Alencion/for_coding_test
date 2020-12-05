@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 public class Solution {
     List<String> expressionList;
+
     public long solution(String expression) {
         long answer = 0;
         expressionList = expressionParsing(expression);
@@ -21,7 +22,7 @@ public class Solution {
     }
 
     private void bfs(int depth, int size, ArrayList<Long> results, List<String> operateList, String[] priorityOperate, boolean[] prioritySelect) {
-        if (depth == size){
+        if (depth == size) {
             results.add(calculate(priorityOperate));
             return;
         }
@@ -30,7 +31,7 @@ public class Solution {
             if (prioritySelect[i]) continue;
             prioritySelect[i] = true;
             priorityOperate[depth] = operateList.get(i);
-            bfs(depth+1, size, results, operateList, priorityOperate, prioritySelect);
+            bfs(depth + 1, size, results, operateList, priorityOperate, prioritySelect);
             prioritySelect[i] = false;
         }
     }
@@ -42,12 +43,11 @@ public class Solution {
         for (int i = priorityOperate.length - 1; i >= 0; i--) {
             for (int j = 0; j < list.size(); j++) {
                 String element = list.get(j);
-                if (element.equals(priorityOperate[i])){
+                if (element.equals(priorityOperate[i])) {
                     Long num1 = Long.parseLong(stack.pop());
                     Long num2 = Long.parseLong(list.get(++j));
                     stack.add(rules(num1, element, num2));
-                }
-                else
+                } else
                     stack.add(element);
             }
             list = new ArrayList<>(stack);
@@ -72,7 +72,7 @@ public class Solution {
 
         if (matcher.find())
             result.add(matcher.group());
-        while(matcher.find()){
+        while (matcher.find()) {
             result.add(String.valueOf(expression.charAt(matcher.start() - 1)));
             result.add(matcher.group());
         }
@@ -82,7 +82,7 @@ public class Solution {
     private Set findOperation(List<String> list) {
         Set<String> result = new HashSet<>();
 
-        for(String element : list) {
+        for (String element : list) {
             if (result.size() == 3) return result;
             if (isOperation(element)) result.add(element);
         }

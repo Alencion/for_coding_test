@@ -1,50 +1,105 @@
 package kakao2020intern.race;
 
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Solution {
-    int[] dx = {1, 0, -1, 0};
-    int[] dy = {0, 1, 0, -1};
-    int[][] board;
-    boolean[][] visit;
-    int min = Integer.MAX_VALUE;
+    //순서: 우, 하, 좌, 상
+    int[] dc = {1, 0, -1, 0};
+    int[] dr = {0, 1, 0, -1};
 
     public int solution(int[][] board) {
-        int answer = 0;
-        this.board = board;
-        this.visit = new boolean[board.length][board.length];
-
-        bfs(0, 0, -1, -1, 0, 0);
-        answer = min;
+        int n = board.length;
+        int[][] visit = new int[n][n];
+        int answer = bfs(board, visit);
         return answer;
     }
 
-    private void bfs(int x, int y, int prevX, int prevY, int straightCount, int cornerCount) {
+    private int bfs(int[][] board, int[][] visit) {
+        int answer = Integer.MAX_VALUE;
         int n = board.length;
-        if (x == n - 1 && y == n - 1) {
-            min = Math.min(min, straightCount * 100 + cornerCount * 500);
-            return;
-        }
+        Queue<History> queue = new LinkedList<>();
 
-        for (int i = 0; i < 4; i++) {
-            int ux = x + dx[i];
-            int uy = y + dy[i];
-            if (ux >= 0 && ux < n && uy >= 0 && uy < n) {
-                if (!visit[ux][uy] && board[ux][uy] == 0) {
-                    visit[ux][uy] = true;
-                    if (!(prevX == -1 && prevY == -1) && prevX != ux && prevY != uy) {
-                        bfs(ux, uy, x, y, straightCount + 1, cornerCount + 1);
-                    } else {
-                        bfs(ux, uy, x, y, straightCount + 1, cornerCount);
-                    }
-                    visit[ux][uy] = false;
+        if (board[0][1] != 1)
+            queue.add(new History(0, 1, 100, 0));
+        if (board[1][0] != 1)
+            queue.add(new History(1, 0, 100, 1));
+
+        visit[1][0] = 100;
+        visit[0][1] = 100;
+
+        while (!queue.isEmpty()) {
+            History element = queue.poll();
+
+            if (visit[element.y][element.x] != 0 && (element.pay > visit[element.y][element.x]))
+                continue;
+
+            if (element.y == (n - 1) && element.x == (n - 1)) {
+                answer = Math.min(answer, element.pay);
+                continue;
+            }
+
+            for (int i = 0; i < 4; i++) {
+                int newY = element.y + dr[i];
+                int newX = element.x + dc[i];
+
+                int cost = i == element.dir ? 100 : 600; // 되돌아 갈 일은 없으니까 .. 이렇게 만 비교를 해도 방향을 잡을 수 있다 ...
+                if (0 > newY || newY >= n || 0 > newX || newX >= n || board[newY][newX] == 1) continue;
+
+                if (visit[newY][newX] == 0 || visit[newY][newX] >= element.pay + cost) {
+                    visit[newY][newX] = element.pay + cost;
+                    queue.add(new History(newY, newX, element.pay + cost, i));
                 }
             }
         }
+
+        return answer;
     }
 
-    public static void main(String[] args) {
+    final static class History {
+        int y;
+        int x;
+        int pay;
+        int dir;
+
+        History(int y, int x, int pay, int dir) {
+            this.y = y;
+            this.x = x;
+            this.pay = pay;
+            this.dir = dir;
+        }
+    }
+
+    @Test
+    public void test() {
         int[][] board = {{0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0}};
-        new Solution().solution(board);
+        Assert.assertEquals(900, new Solution().solution(board));
+    }
+
+    @Test
+    public void test1() {
+        int[][] board = {{0, 0, 1, 0},
+                {0, 0, 0, 0},
+                {0, 1, 0, 1},
+                {1, 0, 0, 0}};
+        Assert.assertEquals(2100, new Solution().solution(board));
+    }
+
+    @Test
+    public void test2() {
+        int[][] board = {{0, 0, 0, 0, 0, 0, 0, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 1},
+                {0, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 0, 0, 1, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0}};
+        Assert.assertEquals(900, new Solution().solution(board));
     }
 }

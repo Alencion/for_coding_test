@@ -1,4 +1,4 @@
-package kakao_code.camping;
+package kakao2017_code.camping;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,8 +46,8 @@ public class Solution {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
 
-                S[i][j] += (i - 1 >= 0 ? S[i - 1][j] : 0)
-                        + (j - 1 >= 0 ? S[i][j - 1] : 0)
+                S[i][j] +=                  (i - 1 >= 0 ? S[i - 1][j] : 0)
+                        +                   (j - 1 >= 0 ? S[i][j - 1] : 0)
                         - (i - 1 >= 0 && j - 1 >= 0 ? S[i - 1][j - 1] : 0);
             }
         }

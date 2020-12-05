@@ -1,6 +1,4 @@
-package skillTest.p6;
-
-import java.util.ArrayList;
+package skillTest.level_one.p6;
 
 // N진수 게임 ok
 public class Solution {

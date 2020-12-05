@@ -1,4 +1,4 @@
-package kakao_code.four_speed_high_note;
+package kakao2017_code.four_speed_high_note;
 
 import org.junit.Assert;
 import org.junit.Test;

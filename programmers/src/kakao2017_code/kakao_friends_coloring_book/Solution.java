@@ -1,4 +1,4 @@
-package kakao_code.kakao_friends_coloring_book;
+package kakao2017_code.kakao_friends_coloring_book;
 
 import org.junit.Assert;
 import org.junit.Test;

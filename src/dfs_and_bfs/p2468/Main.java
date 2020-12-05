@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-public class Solution {
+public class Main {
     // 우 하 좌 상
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
@@ -31,7 +31,7 @@ public class Solution {
     }
 
     private static int solution(int n, int[][] map) {
-        int max = 0;
+        int max = 1;
         int[][] visited = new int[n][n];
 
         Set<Integer> set = new HashSet<>();

@@ -1,6 +1,4 @@
-package skillTest.p3;
-
-import java.util.*;
+package skillTest.level_one.p3;
 
 public class Solution {
     public int solution(int n) {

@@ -1,4 +1,4 @@
-package p2;
+package m10.p2;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

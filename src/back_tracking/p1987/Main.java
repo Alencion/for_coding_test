@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Solution {
+public class Main {
     // 우 하 좌 상
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
@@ -21,6 +21,7 @@ public class Solution {
         int c = Integer.parseInt(split[1]);
 
         char[][] board = new char[r][c];
+
         for (int i = 0; i < r; i++) {
             String boardData = br.readLine();
             for (int j = 0; j < c; j++) {
@@ -36,7 +37,6 @@ public class Solution {
         Set<Character> visited = new HashSet<>();
 
         char value = board[0][0];
-
         visited.add(value);
 
         dfs(0, 0, r, c, board, visited, 1);
@@ -45,7 +45,8 @@ public class Solution {
     }
 
     private static void dfs(int y, int x, int r, int c, char[][] board, Set<Character> visited, int count) {
-        boolean flag = false;
+        boolean canMove = false;
+
         for (int i = 0; i < 4; i++) {
             int newY = y + dy[i];
             int newX = x + dx[i];
@@ -54,7 +55,7 @@ public class Solution {
                 char value = board[newY][newX];
 
                 if (!visited.contains(board[newY][newX])) {
-                    flag = true;
+                    canMove = true;
                     visited.add(value);
                     dfs(newY, newX, r, c, board, visited, count + 1);
                     visited.remove(value);
@@ -62,7 +63,7 @@ public class Solution {
             }
         }
 
-        if (!flag) {
+        if (!canMove) {
             max = Math.max(count, max);
         }
     }

@@ -1,4 +1,4 @@
-package kakao_code.brians_problems;
+package kakao2017_code.brians_problems;
 
 import org.junit.Assert;
 import org.junit.Test;

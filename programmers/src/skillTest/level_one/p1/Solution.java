@@ -1,4 +1,4 @@
-package skillTest.p1;
+package skillTest.level_one.p1;
 
 import java.util.Arrays;
 import java.util.Stack;

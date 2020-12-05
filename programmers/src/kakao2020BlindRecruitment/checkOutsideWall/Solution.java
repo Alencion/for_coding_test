@@ -3,6 +3,7 @@ package kakao2020BlindRecruitment.checkOutsideWall;
 class Solution {
     boolean finish;
     int[] choice;
+
     public int solution(int n, int[] weak, int[] dist) {
         int answer = 0;
 
@@ -40,12 +41,13 @@ class Solution {
 
     public void check(int number, int[][] rotateWeak) {
         for (int[] weak : rotateWeak) {
-            int idx = 0, start = 0;
+            int start = 0;
+
             boolean[] visit = new boolean[weak.length];
 
-            while (idx != number) {
+            for (int index = 0; index < number; index++) {
                 int i = start;
-                int value = choice[idx++];
+                int value = choice[index];
 
                 for (int j = start; j < weak.length; j++) {
                     if (!(weak[i] <= weak[j] && weak[j] <= weak[i] + value)) break;
@@ -74,7 +76,7 @@ class Solution {
         int[] result = new int[weak.length];
 
         for (int i = 0; i < weak.length; i++) {
-            if (i + index < weak.length) result[i] = weak[i];
+            if (i + index < weak.length) result[i] = weak[i + index];
             else result[i] = weak[i + index - weak.length] + n;
         }
         return result;
@@ -82,9 +84,9 @@ class Solution {
 
 
     public static void main(String[] args) {
-        int n = 12;
-        int[] weak = {1, 5, 6, 10};
-        int[] dist = {1, 2, 3, 4};
+        int n = 200;
+        int[] weak = {0, 10, 50, 80, 120, 160};
+        int[] dist = {1, 10, 5, 40, 30};
 
         int answer = new Solution().solution(n, weak, dist);
         System.out.println(answer);

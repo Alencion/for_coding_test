@@ -1,67 +1,56 @@
 package kakao2020intern.shopping;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Solution {
     public int[] solution(String[] gems) {
-        int[] answer = new int[2];
-        Map<String, Integer> gemTypes = new HashMap<>();
+        Queue<String> queue = new LinkedList<>();
+        HashMap<String, Integer> map = new HashMap<>();
+        int size = Arrays.stream(gems).collect(Collectors.toSet()).size();
 
-        int index = 0;
-        for (String gem : gems)
-            if (!gemTypes.containsKey(gem))
-                gemTypes.put(gem, index++);
+        int start = 0;
+        int end = Integer.MAX_VALUE;
 
-        if (gemTypes.size() == 1) return new int[]{1,1};
+        int startPoint = 0;
 
-        Map<String, Integer> map = new HashMap<>();
-        Section section = new Section(1, gems.length);
-        String find = null;
-        for (int i = 0; i < gems.length; i++) {
-            map.putIfAbsent(gems[i], i);
-            map.put(gems[i], i);
+        for (String gem : gems) {
+            map.put(gem, map.getOrDefault(gem, 0) + 1);
 
-            if (map.size() == gemTypes.size() && (find == null || find.equals(gems[i]))) {
-                Section newSection = findSection(map);
-                if (section.getDistance() > newSection.getDistance())
-                    section = newSection;
-                find = gems[section.start-1];
+            queue.add(gem);
+
+            while (true) {
+                String temp = queue.peek();
+                if (map.get(temp) > 1) {
+                    queue.poll();
+                    start++;
+                    map.put(temp, map.get(temp) - 1);
+                } else {
+                    break;
+                }
             }
+            if (map.size() == size && end > queue.size()) {
+                end = queue.size();
+                startPoint = start;
+            }
+
+
         }
-        answer[0] = section.start;
-        answer[1] = section.last;
-        return answer;
+        return new int[]{startPoint + 1, startPoint + end};
     }
 
-    private Section findSection(Map<String, Integer> map) {
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        Set<String> strings = map.keySet();
-
-        for (String key : strings) {
-            int value = map.get(key);
-            if (min > value) min = value;
-            if (max < value) max = value;
-        }
-        return new Section(min + 1, max + 1);
-    }
-
-    public static void main(String[] args) {
+    @Test
+    public void test() {
         String[] gems = {"AA", "AB", "AB", "AC", "AA", "AC"};
-        new Solution().solution(gems);
-    }
-}
-
-class Section {
-    int start;
-    int last;
-
-    public Section(int start, int last) {
-        this.start = start;
-        this.last = last;
+        Assert.assertEquals(Arrays.toString(new int[]{2, 4}), Arrays.toString(new Solution().solution(gems)));
     }
 
-    public int getDistance() {
-        return last - start;
+    @Test
+    public void test1() {
+        String[] gems = {"DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"};
+        Assert.assertEquals(Arrays.toString(new int[]{3, 7}), Arrays.toString(new Solution().solution(gems)));
     }
 }

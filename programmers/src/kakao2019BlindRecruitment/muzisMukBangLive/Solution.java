@@ -45,6 +45,6 @@ class Solution {
     public static void main(String[] args) {
         int[] food_times = {5, 2, 1, 1, 2};
         int k = 8;
-        new Solution().solution(food_times, k);
+        System.out.println(new Solution().solution(food_times, k));
     }
 }
