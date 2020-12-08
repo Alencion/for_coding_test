@@ -17,7 +17,6 @@ public class p11438 {
     static ArrayList<Integer>[] adjList;
 
     public static void main(String[] args) throws Exception {
-        //System.setIn(new FileInputStream("./sample.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer token;
@@ -79,8 +78,7 @@ public class p11438 {
             a = b;
             b = tmp;
         }
-        new StringBuilder();
-        new StringBuffer();
+
         for (int n = 20; n >= 0; n--) {
             if (depths[b] - depths[a] >= (1 << n)) {
                 b = parent[b][n];

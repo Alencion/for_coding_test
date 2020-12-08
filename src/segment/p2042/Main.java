@@ -1,5 +1,7 @@
 package segment.p2042;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -67,5 +69,22 @@ public class Main {
         if (start == end) return segment[node] = numbers[start];
         int mid = (start + end) / 2;
         return segment[node] = init(numbers, start, mid, node * 2) + init(numbers, mid + 1, end, node * 2 + 1);
+    }
+
+    @Test
+    public void test(){
+        double sqrt = new Main().sqrt(9);
+        System.out.println(sqrt);
+    }
+
+    public double sqrt(double a)
+    {
+        double x = 2;
+
+        for(int i = 0; i < 10; i++) {
+            x = ( x + ( a / x ) ) / 2;
+        }
+
+        return x;
     }
 }
