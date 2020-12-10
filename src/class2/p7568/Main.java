@@ -3,61 +3,61 @@ package class2.p7568;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
-// 덩치
+/*
+2020-12-10
+ */
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int loopNumber = Integer.parseInt(br.readLine());
 
-        ArrayList<Person> people = new ArrayList<>();
-        ArrayList<Person> people2 = new ArrayList<>();
-        for (int i = 0; i < loopNumber; i++) {
-            String[] splits = br.readLine().split(" ");
-            int weight = Integer.parseInt(splits[0]);
-            int height = Integer.parseInt(splits[1]);
+        int n = Integer.parseInt(br.readLine());
+        List<Person> people = new ArrayList<>();
 
-            people.add(new Person(weight, height));
-            people2.add(new Person(weight, height));
+        String[] split;
+        for (int i = 0; i < n; i++) {
+            split = br.readLine().split(" ");
+            people.add(new Person(i, Integer.parseInt(split[0]), Integer.parseInt(split[1])));
         }
 
-        Collections.sort(people);
-        HashMap<Integer, Integer> results = new HashMap<>();
-        int ranking = 1;
-        results.put(people.get(0).weight, ranking);
-        for (int i = 1; i < people.size(); i++) {
-            if (people.get(i-1).height > people.get(i).height) {
-                ranking = i+1;
+        int[] answer = solution(n, people);
+        Arrays.stream(answer).forEach(rank -> System.out.print(rank + " "));
+    }
+
+    private static int[] solution(int n, List<Person> people) {
+        int[] answer = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            int count = 1;
+            for (int j = 0; j < n; j++) {
+                if (i == j) continue;
+                if (people.get(i).compareTo(people.get(j)) > 0) {
+                    count++;
+                }
             }
-            results.put(people.get(i).weight, ranking);
+            answer[i] = count;
         }
 
-        people2.forEach( person -> System.out.print(results.get(person.weight)+" "));
-    }
-}
-
-class Person implements Comparable<Person>{
-    int weight;
-    int height;
-
-    public Person(int weight, int height) {
-        this.weight = weight;
-        this.height = height;
+        return answer;
     }
 
-    @Override
-    public int compareTo(Person o) {
-        return Integer.compare(o.weight, this.weight);
-    }
+    static class Person implements Comparable<Person> {
+        int index;
+        int weight;
+        int height;
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "weight=" + weight +
-                ", height=" + height +
-                '}';
+        public Person(int index, int weight, int height) {
+            this.index = index;
+            this.weight = weight;
+            this.height = height;
+        }
+
+        @Override
+        public int compareTo(Person o) {
+            if (o.weight > this.weight && o.height > this.height) return 1;
+            else if (o.weight < this.weight && o.height < this.height) return -1;
+            return 0;
+        }
     }
 }
