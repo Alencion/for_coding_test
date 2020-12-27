@@ -37,7 +37,7 @@ public class Main {
             for (int j = 0; j < w; j++) {
                 split = br.readLine().split(" ");
                 adjList.get(Integer.parseInt(split[0]) - 1)
-                        .add(new Edge(Integer.parseInt(split[1]) - 1, (-1) * Integer.parseInt(split[2])));
+                        .add(new Edge(Integer.parseInt(split[1]) - 1, Integer.parseInt(split[2]) * -1));
             }
 
 
@@ -49,28 +49,27 @@ public class Main {
     }
 
     private static boolean solution(int n, List<List<Edge>> adjList) {
+        int start = 0;
         boolean updated = false;
 
         int[] upper = new int[n];
         Arrays.fill(upper, Integer.MAX_VALUE);
-        upper[0] = 0;
+        upper[start] = 0;
 
         for (int i = 0; i < n; i++) {
             updated = false;
-
             for (int j = 0; j < adjList.size(); j++) {
                 for (Edge edge : adjList.get(j)) {
-                    if (upper[edge.to] > upper[j] + edge.weight){
+                    if (upper[j] != Integer.MAX_VALUE && upper[edge.to] > upper[j] + edge.weight){
                         upper[edge.to] = upper[j] + edge.weight;
                         updated = true;
-
                     }
                 }
             }
 
             if (!updated) break;
         }
-        return updated;
+        return !updated;
     }
 
     static class Edge {
