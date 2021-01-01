@@ -13,6 +13,7 @@ public class Main {
     static int cnt[] = new int[100001];
     static int dist[] = new int[100001];
     static int N, K;
+
     public static void bfs(int N, int K) {
 
         Queue<Integer> q = new LinkedList<>();
