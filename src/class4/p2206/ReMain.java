@@ -8,15 +8,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * 벽 뚫고 가기
- * 2020-12-29
+ * 벽 부수고 이동하기
+ * 2021-01-03
  */
-public class Main {
+public class ReMain {
     static int[] dx = {0, 1, 0, -1};
     static int[] dy = {-1, 0, 1, 0};
     static int n;
     static int m;
-    static int result = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -37,23 +36,15 @@ public class Main {
         for (int i = 0; i < n; i++) {
             Arrays.fill(visited[i], Integer.MAX_VALUE);
         }
-        bfs(map, visited);
-
-        if (result == Integer.MAX_VALUE) System.out.println(-1);
-        else System.out.println(result);
-    }
-
-    private static void bfs(char[][] map, int[][] visited) {
-
-        Queue<Point> queue = new LinkedList<>();
+        Queue<Position> queue = new LinkedList<>();
+        queue.add(new Position(0, 0, 0, 1));
         visited[0][0] = 0;
 
-        queue.add(new Point(0, 0, 0, 1));
         while (!queue.isEmpty()) {
-            Point current = queue.poll();
+            Position current = queue.poll();
 
-            if (current.y == n - 1 && current.x == m - 1) {
-                result = current.value;
+            if (current.y == n - 1 && current.x == m -1){
+                System.out.println(current.value);
                 return;
             }
 
@@ -61,26 +52,29 @@ public class Main {
                 int newY = current.y + dy[i];
                 int newX = current.x + dx[i];
 
-                if (newY < 0 || newX < 0 || newY > n - 1 || newX > m - 1 || visited[newY][newX] <= current.breakCount)
-                    continue;
+                if (newY < 0 || newX < 0 || newY > n - 1 || newX > m - 1 ||
+                        visited[newY][newX] <= current.breakCount) continue;
                 if (map[newY][newX] == '0') {
                     visited[newY][newX] = current.breakCount;
-                    queue.add(new Point(newY, newX, current.breakCount, current.value + 1));
+                    queue.add(new Position(newY, newX, current.breakCount, current.value + 1));
                 } else if (current.breakCount == 0) {
                     visited[newY][newX] = current.breakCount + 1;
-                    queue.add(new Point(newY, newX, current.breakCount + 1, current.value + 1));
+                    queue.add(new Position(newY, newX, current.breakCount + 1, current.value + 1));
                 }
             }
         }
+
+        System.out.println(-1);
     }
 
-    static class Point {
+    static class Position {
         int y;
         int x;
         int breakCount;
         int value;
 
-        public Point(int y, int x, int breakCount, int value) {
+
+        public Position(int y, int x, int breakCount, int value) {
             this.y = y;
             this.x = x;
             this.breakCount = breakCount;
