@@ -15,8 +15,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
+
         ArrayList<int[]> lMap = new ArrayList<>(); // 대각선에서 나올 수 있는 판
         ArrayList<int[]> rMap = new ArrayList<>();
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 int can = sc.nextInt();
@@ -29,6 +31,7 @@ public class Main {
                 }
             }
         }
+
         boolean[] lvisit = new boolean[lMap.size()];
         boolean[] rvisit = new boolean[rMap.size()];
 
@@ -40,7 +43,7 @@ public class Main {
 
     private static void lbfs(ArrayList<int[]> map, boolean[] visit, int n, int cnt) {
         if (n >= map.size()) {
-            lAns = lAns < cnt ? cnt : lAns;
+            lAns = Math.max(lAns, cnt);
             return;
         }
 
@@ -54,12 +57,12 @@ public class Main {
             }
         }
 
-        lAns = lAns < cnt ? cnt : lAns;
+        lAns = Math.max(lAns, cnt);
     }
 
     private static void rbfs(ArrayList<int[]> map, boolean[] visit, int n, int cnt) {
         if (n >= map.size()) {
-            rAns = rAns < cnt ? cnt : rAns;
+            rAns = Math.max(rAns, cnt);
             return;
         }
 
@@ -73,7 +76,7 @@ public class Main {
             }
         }
 
-        rAns = rAns < cnt ? cnt : rAns;
+        rAns = Math.max(rAns, cnt);
     }
 
     private static boolean isNotDiagonal(ArrayList<int[]> map, boolean[] visit, int n) {
@@ -82,7 +85,7 @@ public class Main {
         for (int i = 0; i < n; i++) {
             if (visit[i]) {
                 int[] b = map.get(i);
-                if (Math.abs(a[0] - b[0]) == Math.abs(a[1] - b[1])) { // 대각선에 있는 경우.
+                if (Math.abs(a[0] - b[0]) == Math.abs(a[1] - b[1])) {
                     return false;
                 }
             }
