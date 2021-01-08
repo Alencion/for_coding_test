@@ -6,83 +6,98 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * 두 배열의 합
  * 2021-01-06
  */
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int t = Integer.parseInt(br.readLine());
+    static int T, N, M;
+    static long ans;
+    static int[] A, B;
 
-        int n = Integer.parseInt(br.readLine());
-        String[] split = br.readLine().split(" ");
-        int[] arr1 = new int[n + 1];
-        arr1[1] = Integer.parseInt(split[0]);
-        for (int i = 2; i <= n; i++) {
-            arr1[i] = arr1[i - 1] + Integer.parseInt(split[i - 1]);
+    static List<Integer> a, b;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        T = sc.nextInt(); // T(-1,000,000,000 ≤ T ≤ 1,000,000,000)
+
+        N = sc.nextInt(); // n(1 ≤ n ≤ 1,000)
+        A = new int[N];
+        for (int i = 0; i < N; i++) {
+            A[i] = sc.nextInt(); // 절댓값이 1,000,000을 넘지 않는 정수
         }
 
-        int m = Integer.parseInt(br.readLine());
-        split = br.readLine().split(" ");
-        int[] arr2 = new int[m + 1];
-        arr2[1] = Integer.parseInt(split[0]);
-        for (int i = 2; i <= m; i++) {
-            arr2[i] = arr2[i - 1] + Integer.parseInt(split[i - 1]);
+        M = sc.nextInt();// m(1≤m≤1,000)
+        B = new int[M];
+        for (int i = 0; i < M; i++) {
+            B[i] = sc.nextInt(); // 절댓값이 1,000,000을 넘지 않는 정수
         }
 
-        List<Integer> list;
-        int answer;
-        if (n > m) {
-            list = getList(t, m, arr2);
-            Collections.sort(list);
-            answer = solution(list, n, arr1);
-        } else {
-            list = getList(t, n, arr1);
-            Collections.sort(list);
-            answer = solution(list, m, arr2);
+        a = new ArrayList<>();
+        get(A, a);
+        b = new ArrayList<>();
+        get(B, b);
+
+        Collections.sort(b);
+
+        ans = 0;
+        for (Integer i : a) {
+            int val = T - i;
+            int high = upper_bound(b, val);
+            int low = lower_bound(b, val);
+            ans += high - low;
         }
-
-
-        System.out.println(answer);
+        System.out.println(ans);
     }
 
-    private static int solution(List<Integer> list, int m, int[] arr2) {
-        int answer = 0;
-
-        for (int i = 0; i <= m; i++) {
-            for (int j = i + 1; j <= m; j++) {
-                if (find(list, arr2[j] - arr2[i])) answer++;
+    private static void get(int[] data, List<Integer> list) {
+        for (int size = 1; size <= data.length; size++) {
+            int sum = 0;
+            for (int i = 0; i < size; i++) {
+                sum += data[i];
             }
-        }
-
-        return answer;
-    }
-
-    private static List<Integer> getList(int t, int n, int[] arr1) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i <= n; i++) {
-            for (int j = i + 1; j <= n; j++) {
-                list.add(t - (arr1[j] - arr1[i]));
+            for (int i = size; i < data.length; i++) {
+                list.add(sum);
+                sum += data[i];
+                sum -= data[i - size];
             }
+            list.add(sum);
         }
-        return list;
     }
 
-    private static boolean find(List<Integer> list, int target) {
+    // lower bound는 찾고자 하는 값 이상이 처음 나타나는 위치
+    private static int lower_bound(List<Integer> list, int val) {
         int start = 0;
-        int end = list.size() - 1;
+        int end = list.size();
+        int mid;
         while (start < end) {
-            int mid = (start + end) / 2;
+            mid = (start + end) >> 1;
 
-            if (list.get(mid) == target) return true;
-            if (list.get(mid) < target) {
+            if (list.get(mid) >= val) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    // upper bound는 찾고자 하는 값보다 큰 값이 처음으로 나타나는 위치
+    private static int upper_bound(List<Integer> list, int val) {
+        int start = 0;
+        int end = list.size();
+        int mid;
+        while (start < end) {
+            mid = (start + end) >> 1;
+
+            if (list.get(mid) <= val) {
                 start = mid + 1;
             } else {
                 end = mid;
             }
         }
-        return false;
+        return start;
     }
 }
