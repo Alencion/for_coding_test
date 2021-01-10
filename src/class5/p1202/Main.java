@@ -15,12 +15,15 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
+
         Jewelry[] jewArr = new Jewelry[N];
+
         int[] bagArr = new int[K];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             jewArr[i] = new Jewelry(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
         }
+
         for (int i = 0; i < K; i++) {
             bagArr[i] = Integer.parseInt(br.readLine());
         }
