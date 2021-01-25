@@ -3,50 +3,45 @@ package class5.p7579;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class Main {
-    private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
     public static void main(String[] args) throws IOException {
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        int ans = Integer.MAX_VALUE;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int[] memoryArr = new int[n];
-        int[] costArr = new int[n];
-        int[][] dp = new int[n][100001];
+        String[] split = br.readLine().split(" ");
+        int n = Integer.parseInt(split[0]);
+        int m = Integer.parseInt(split[1]);
 
-        StringTokenizer st1 = new StringTokenizer(br.readLine());
-        StringTokenizer st2 = new StringTokenizer(br.readLine());
+        int[] activeAppMemories = new int[n];
+        int[] reactiveAppCosts = new int[n];
 
-        // 비용과 메모리 초기화부분
-        for(int i = 0 ; i < n; i++){
-            memoryArr[i] = Integer.parseInt(st1.nextToken());
-            costArr[i] = Integer.parseInt(st2.nextToken());
+        String[] memoriesData = br.readLine().split(" ");
+        String[] costsData = br.readLine().split(" ");
+        for (int i = 0; i < n; i++) {
+            activeAppMemories[i] = Integer.parseInt(memoriesData[i]);
+            reactiveAppCosts[i] = Integer.parseInt(costsData[i]);
         }
 
+        int[][] dp = new int[n][100001];
 
-        for(int i = 0 ; i < n; i++){
-            int cost = costArr[i];
-            int memory = memoryArr[i];
+        int answer = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            int cost = reactiveAppCosts[i];
+            int memory = activeAppMemories[i];
 
-
-            for(int j = 0; j <= 10000; j++){
+            for (int j = 0; j <= 10000; j++) {
                 // 앱이 하나일 경우 예외처리
-                if(i == 0) {
+                if (i == 0) {
                     if (j >= cost) dp[i][j] = memory;
-                }
-                else {
+                } else {
                     if (j >= cost) dp[i][j] = Math.max(dp[i - 1][j - cost] + memory, dp[i - 1][j]);
                     else dp[i][j] = dp[i - 1][j];
                 }
 
-                // 문제에서 주어진 필요한 메모리보다 확보가능한 메모리가 클 경우 정답으로 저장
-                if(dp[i][j] >= m) ans = Math.min(ans, j);
+                if (dp[i][j] >= m) answer = Math.min(answer, j);
             }
         }
-        System.out.println(ans);
+
+        System.out.println(answer);
     }
 }
