@@ -16,7 +16,7 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        List<List<Integer>> adjList = new ArrayList();
+        List<List<Integer>> adjList = new ArrayList<>();
         for (int i = 0; i <= n; i++) {
             adjList.add(new ArrayList<>());
         }

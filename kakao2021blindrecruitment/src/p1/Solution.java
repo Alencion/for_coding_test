@@ -24,19 +24,4 @@ public class Solution {
         answer = new_id;
         return answer;
     }
-
-
-    @Test
-    public void test() {
-        String new_id = "...!@BaT#*..y.abcdefghijklm";
-
-        Assert.assertEquals("bat.y.abcdefghi", new Solution().solution(new_id));
-    }
-
-    @Test
-    public void test2() {
-        String new_id = "=.=";
-
-        Assert.assertEquals("=.=", new Solution().solution(new_id));
-    }
 }
