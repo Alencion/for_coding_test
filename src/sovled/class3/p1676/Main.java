@@ -16,7 +16,7 @@ public class Main {
 
         int count = 0;
         int fiveCount = 5;
-        while (fiveCount < n) {
+        while (fiveCount <= n) {
             for (int i = fiveCount; i <= n; i += fiveCount) {
                 if (i % fiveCount == 0) count++;
             }
