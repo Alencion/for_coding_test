@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 /**
  * 최소비용 구하기
  * 2020-12-27
+ * 2020-09-27
  */
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -53,7 +54,7 @@ public class Main {
             Edge current = queue.poll();
 
             visited[current.to] = true;
-
+            if(dist[current.to] < current.cost) continue;
             for (Edge edge : adjList.get(current.to)) {
                 if (!visited[edge.to] && dist[edge.to] > current.cost + edge.cost){
                     dist[edge.to] = current.cost + edge.cost;
